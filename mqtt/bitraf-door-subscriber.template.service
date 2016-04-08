@@ -1,0 +1,10 @@
+[Service]
+ExecStart=/usr/local/bin/bitraf-door-subscriber
+WorkingDirectory=/
+Restart=always
+User=nobody
+Group=nogroup
+Environment="broker=$BROKER" "door_id=$DOOR_ID" "mqtt_username=$MQTT_USERNAME" "mqtt_password=$MQTT_PASSWORD"
+
+[Install]
+WantedBy=multi-user.target

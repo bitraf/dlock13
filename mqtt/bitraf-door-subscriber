@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+check() {
+  local key="$1"; shift
+
+  local value="${!key}"
+
+  if [[ -z $value ]]
+  then
+    echo "Missing environment variable $key"
+    exit 1
+  fi
+}
+
+check broker
+check door_id
+check mqtt_username
+check mqtt_password
+
+while true
+do
+  echo "Connecting to MQTT"
+  mosquitto_sub
+    -i "bitraf-door-$door_id" \
+    -h "$broker" \
+    -u "$mqtt_username" \
+    -P "$mqtt_password" \
+    -t "/bitraf/door/$door_id/open" | while read
+  do
+    echo "Opening door"
+    unlock
+  done
+  sleep 1
+done
