@@ -16,8 +16,8 @@ check() {
 
 check BROKER
 check DOOR
+check DELAY
 
-opts=(-i "bitraf-door-$DOOR")
 opts+=(-h "$BROKER")
 opts+=(-t "bitraf/door/$DOOR/open")
 
@@ -26,16 +26,4 @@ then
   opts+=(--username "$MQTT_USERNAME" --pw "$MQTT_PASSWORD")
 fi
 
-while true
-do
-  echo "Connecting to MQTT"
-  mosquitto_sub "${opts[@]}" | while read delay rest_of_line
-  do
-    if bitraf-door-sanitize "$delay" >/dev/null
-    then
-      echo "Opening door, delay=$delay"
-      unlock
-    fi
-  done
-  sleep 1
-done
+exec mosquitto_pub -d "${opts[@]}" -m "$DELAY"
