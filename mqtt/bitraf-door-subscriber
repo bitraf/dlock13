@@ -31,9 +31,10 @@ do
   echo "Connecting to MQTT"
   mosquitto_sub "${opts[@]}" | while read delay rest_of_line
   do
-    if bitraf-door-sanitize "$delay" >/dev/null
+    if bitraf-door-sanitize-delay "$delay" >/dev/null
     then
       echo "Opening door, delay=$delay"
+      sleep "$delay"
       unlock
     fi
   done
