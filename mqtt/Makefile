@@ -1,6 +1,6 @@
 DESTDIR ?=/usr/local
-BROKER = bomba.bitraf.no
-DOOR = boxy2
+BROKER ?= bomba.bitraf.no
+DOOR ?= boxy2
 
 all:
 
@@ -19,3 +19,5 @@ install-service: bitraf-door-subscriber.service
 	systemctl enable bitraf-door-subscriber
 
 install: install-scripts install-service
+
+.PHONY: bitraf-door-subscriber.service
