@@ -4,7 +4,7 @@ WorkingDirectory=/
 Restart=always
 User=nobody
 Group=nogroup
-Environment="BROKER=.." "DOOR=.."
+Environment="BROKER=@BROKER@" "DOOR=@DOOR@"
 
 [Install]
 WantedBy=multi-user.target
