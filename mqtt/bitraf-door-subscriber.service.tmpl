@@ -6,5 +6,8 @@ User=nobody
 Group=nogroup
 Environment="BROKER=@BROKER@" "DOOR=@DOOR@"
 
+[Unit]
+After=network-online.target
+
 [Install]
 WantedBy=multi-user.target
