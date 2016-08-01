@@ -47,9 +47,11 @@ then
 fi
 
 echo "Connecting to MQTT"
-mosquitto_sub "${opts[@]}" | while read message rest_of_line
+mosquitto_sub "${opts[@]}" | while read first rest_of_line
 do
-  URL=http://tv.local:8080/message/$(urlencode message)
+  message="${first} ${rest_of_line}"
+  URL=http://tv.local:8080/message/$(urlencode "${message}")
+  echo "opening" $URL
   DISPLAY=:0 zenity --text-info --html --url $URL --width 1824 --height 1084 --timeout 5 &
 done
 sleep 1
