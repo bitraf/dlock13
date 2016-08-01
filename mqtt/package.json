@@ -28,6 +28,7 @@
     "components": {
       "dlock13/DoorOpener": "#FOREIGN",
       "dlock13/DoorLock": "#FOREIGN",
+      "tv/ShowMessage": "#FOREIGN",
       "door-web/WebUi": "#FOREIGN",
       "DoorAdapter": "#COFFEE"
     }

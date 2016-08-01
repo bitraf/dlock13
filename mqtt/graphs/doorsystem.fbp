@@ -3,3 +3,5 @@
 boxy2(dlock13/DoorLock)
 boxy4(dlock13/DoorLock)
 webui(door-web/WebUi)
+
+infodisplay(tv/ShowMessage)
