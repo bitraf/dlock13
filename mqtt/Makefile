@@ -4,7 +4,7 @@ DOOR ?= boxy2
 
 all:
 
-bitraf-door-subscriber.service: bitraf-door-subscriber.service.tmpl
+%.service: %.service.tmpl
 	sed -e "s/@DOOR@/${DOOR}/" -e "s/@BROKER@/${BROKER}/" $< > $@
 
 install-scripts:
@@ -12,6 +12,9 @@ install-scripts:
 	cp bitraf-door-publisher $(DESTDIR)/bin
 	cp bitraf-door-subscriber $(DESTDIR)/bin
 	cp bitraf-door-sanitize-delay $(DESTDIR)/bin
+	cp bitraf-tv-showmessage $(DESTDIR)/bin
+
+install-tv: install-scripts bitraf-tv-showmessage.service
 
 install-service: bitraf-door-subscriber.service
 	cp bitraf-door-subscriber.service /etc/systemd/system/

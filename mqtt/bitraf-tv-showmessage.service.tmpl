@@ -1,0 +1,13 @@
+[Service]
+ExecStart=/usr/local/bin/bitraf-tv-showmessage
+WorkingDirectory=/
+Restart=always
+User=nobody
+Group=nogroup
+Environment="BROKER=@BROKER@"
+
+[Unit]
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target

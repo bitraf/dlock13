@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+check() {
+  local key="$1"; shift
+
+  local value="${!key}"
+
+  if [[ -z $value ]]
+  then
+    echo "Missing environment variable $key"
+    exit 1
+  fi
+}
+
+check BROKER
+
+opts=()
+opts+=(-h "$BROKER")
+opts+=(-t "/bitraf/tv/showmessage")
+
+if [[ ! -z $MQTT_USERNAME ]]
+then
+  opts+=(--username "$MQTT_USERNAME" --pw "$MQTT_PASSWORD")
+fi
+
+echo "Connecting to MQTT"
+mosquitto_sub "${opts[@]}" | while read message rest_of_line
+do
+  URL=$message
+  URL=http://bitraf.no
+  DISPLAY=:0 zenity --text-info --html --url $URL --width 1824 --height 1084
+done
+sleep 1
