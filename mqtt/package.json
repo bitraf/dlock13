@@ -14,5 +14,8 @@
   "license": "MIT",
   "devDependencies": {
     "msgflo": "^0.7.3"
+  },
+  "dependencies": {
+    "mqtt": "1.4.x"
   }
 }
