@@ -5,4 +5,4 @@ inports: {}
 outports:
   pressed:
     queue: /diller/18:fe:34:9c:5f:e0/property/button/value
-    type: object
+    type: boolean
