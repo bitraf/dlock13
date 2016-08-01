@@ -1,0 +1,8 @@
+component: dlock13/DoorOpener
+label: Open the door
+icon: lightbulb-o
+inports: {}
+outports:
+  pressed:
+    queue: bitraf/door/boxy4/open
+    type: object
