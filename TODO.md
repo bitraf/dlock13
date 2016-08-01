@@ -1,11 +1,6 @@
 
 # TODO
 
-## MQTT all the doors
-
-* Transition 2.floor door to be MQTT based
-* Use `/bitraf` prefix instead of `bitraf`
-
 ## Stateful webinterface
 
 * Make the MQTT interface include outputs `isopen` and `error`
