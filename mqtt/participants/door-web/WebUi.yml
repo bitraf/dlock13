@@ -9,3 +9,6 @@ outports:
   openoffice:
     queue: /bitraf/door/boxy2/open
     type: number
+  memberlogin:
+    queue: /bitraf/doorweb/memberlogin
+    type: string
