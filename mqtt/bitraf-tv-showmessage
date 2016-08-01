@@ -2,6 +2,27 @@
 
 set -e
 
+urlencode() {
+    # urlencode <string>
+
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            *) printf '%s' "$c" | xxd -p -c1 |
+                   while read c; do printf '%%%s' "$c"; done ;;
+        esac
+    done
+}
+
+urldecode() {
+    # urldecode <string>
+
+    local url_encoded="${1//+/ }"
+    printf '%b' "${url_encoded//%/\\x}"
+}
+
 check() {
   local key="$1"; shift
 
@@ -28,7 +49,7 @@ fi
 echo "Connecting to MQTT"
 mosquitto_sub "${opts[@]}" | while read message rest_of_line
 do
-  URL=http://localhost:8080/message/$message
-  DISPLAY=:0 zenity --text-info --html --url $URL --width 1824 --height 1084
+  URL=http://tv.local:8080/message/$(urlencode message)
+  DISPLAY=:0 zenity --text-info --html --url $URL --width 1824 --height 1084 --timeout 5 &
 done
 sleep 1
