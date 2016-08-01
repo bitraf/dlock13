@@ -1,6 +1,6 @@
 # Bitraf's MQTT Protocol for Opening Doors
 
-The client subscribes to `bitraf/door/$door_id/open` where `door_id`
+The client subscribes to `/bitraf/door/$door_id/open` where `door_id`
 identifies the particular door. To open the door send an ascii string
 of numbers indicating the number of seconds to delay before opening
 the door. Any invalid package is silently ignored.

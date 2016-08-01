@@ -19,7 +19,7 @@ check DOOR
 check DELAY
 
 opts+=(-h "$BROKER")
-opts+=(-t "bitraf/door/$DOOR/open")
+opts+=(-t "/bitraf/door/$DOOR/open")
 
 if [[ ! -z $MQTT_USERNAME ]]
 then
