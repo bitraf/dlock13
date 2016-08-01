@@ -1,5 +1,5 @@
 DESTDIR ?=/usr/local
-BROKER ?= bomba.bitraf.no
+BROKER ?= mqtt.bitraf.no
 DOOR ?= boxy2
 
 all:
