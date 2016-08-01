@@ -1,0 +1,1 @@
+opener(dlock13/DoorOpener) PRESSED -> IN adapter(DoorAdapter) OUT -> OPEN door(dlock13/DoorLock)

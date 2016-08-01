@@ -1,8 +1,8 @@
 component: dlock13/DoorOpener
-label: Open the door
+label: Fires an event when button is pressed
 icon: lightbulb-o
 inports: {}
 outports:
   pressed:
-    queue: bitraf/door/boxy4/open
+    queue: /diller/18:fe:34:9c:5f:e0/property/button/value
     type: object
