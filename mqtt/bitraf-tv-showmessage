@@ -28,8 +28,7 @@ fi
 echo "Connecting to MQTT"
 mosquitto_sub "${opts[@]}" | while read message rest_of_line
 do
-  URL=$message
-  URL=http://bitraf.no
+  URL=http://localhost:8080/message/$message
   DISPLAY=:0 zenity --text-info --html --url $URL --width 1824 --height 1084
 done
 sleep 1
