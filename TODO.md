@@ -8,6 +8,7 @@
 
 ## Dynamic reconfiguration
 
+* (Msgflo) Show data running coming through connection
 * (Msgflo) Remove connections when removing edge
 * (Flowhub) Respect changes coming from runtime side
 * (Msgflo) Support adding new participant in code
@@ -27,6 +28,6 @@
 ## Wanted MQTT services
 
 * Soil moisture from plants, light/tempature, watering status
-* Display info on TV screen
-* Member login
 * Time/RTC broadcast
+* TV: Show image
+* TV: Show URL
