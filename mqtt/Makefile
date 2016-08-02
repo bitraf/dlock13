@@ -16,11 +16,11 @@ install-scripts:
 
 install-tv: install-scripts bitraf-tv-showmessage.service
 
-install-service: bitraf-door-subscriber.service
+install-door: install-scripts bitraf-door-subscriber.service
 	cp bitraf-door-subscriber.service /etc/systemd/system/
 	systemctl daemon-reload
 	systemctl enable bitraf-door-subscriber
 
-install: install-scripts install-service
+install: install-scripts
 
 .PHONY: bitraf-door-subscriber.service
