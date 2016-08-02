@@ -30,7 +30,8 @@
       "dlock13/DoorLock": "#FOREIGN",
       "tv/ShowMessage": "#FOREIGN",
       "door-web/WebUi": "#FOREIGN",
-      "DoorAdapter": "#COFFEE"
+      "DoorAdapter": "#COFFEE",
+      "WelcomeMessage": "#COFFEE"
     }
   }
 }
