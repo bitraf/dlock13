@@ -1,7 +1,19 @@
 
 # TODO
 
-## Stateful webinterface
+## Live Flowhub network
+
+* Deploy MsgFlo coordinator to Bomba
+* Create a short URL for Flowhub IDE
+
+## Dynamic reconfiguration
+
+* (Msgflo) Remove connections when removing edge
+* (Flowhub) Respect changes coming from runtime side
+* (Msgflo) Support adding new participant in code
+* (Flowhub+Msgflo) Network persist supports
+
+## Stateful webinterface for door
 
 * Make the MQTT interface include outputs `isopen` and `error`
 * Enable WebSocket in Mosquitto for webui
