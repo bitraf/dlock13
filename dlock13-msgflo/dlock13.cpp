@@ -42,7 +42,10 @@ int main(int argc, char **argv) {
 
     DlockParticipant dlock("boxy-msgflo-2");
 
-    auto engine = msgflo::createEngine(&dlock, "mqtt://mqtt.bitraf.no");
+    msgflo::EngineConfig config;
+    config.url("mqtt://mqtt.bitraf.no");
+    config.participant(&dlock);
+    auto engine = msgflo::createEngine(config);
 
     while(run) {
         this_thread::sleep_for(chrono::seconds(10));
