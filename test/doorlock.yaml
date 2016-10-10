@@ -1,0 +1,35 @@
+topic: "DoorLock"
+fixture:
+ type: 'fbp'
+ data: |
+  INPORT=lock.OPEN:OPEN
+  OUTPORT=lock.ISOPEN:ISOPEN
+  OUTPORT=lock.ERROR:ERROR
+  lock(DoorLock)
+
+cases:
+-
+  name: 'sending empty'
+  assertion: 'should error'
+  inputs:
+    open: ""
+  expect:
+    error:
+      contains: 'stoi'
+-
+  name: 'sending a string'
+  assertion: 'should error'
+  inputs:
+    open: "bs50s"
+  expect:
+    error:
+      contains: 'stoi'
+-
+  name: 'sending 20 seconds'
+  assertion: 'should open'
+  skip: 'fails in combination with other cases'
+  inputs:
+    open: 20
+  expect:
+    isopen:
+      equals: true

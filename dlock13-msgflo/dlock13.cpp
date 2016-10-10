@@ -197,7 +197,7 @@ int main(int argc, char **argv) {
     msgflo::Definition def;
     def.role = role;
     def.id = role;
-    def.component = "Bitraf Dlock13";
+    def.component = "DoorLock";
     def.label = "Door lock";
     // TODO: make the port descriptions be included in msgflo-cpp
     const std::string queuePrefix = "/bitraf/door/" + role;
