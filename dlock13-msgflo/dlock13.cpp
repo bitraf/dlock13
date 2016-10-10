@@ -200,13 +200,14 @@ int main(int argc, char **argv) {
     def.component = "Bitraf Dlock13";
     def.label = "Door lock";
     // TODO: make the port descriptions be included in msgflo-cpp
+    const std::string queuePrefix = "/bitraf/door/" + role;
     def.inports = {
-        {"open", "int", ""}, // Open the door for N seconds (maximum 120)
+        {"open", "int", queuePrefix+"/open"}, // Open the door for N seconds (maximum 120)
     };
     def.outports = {
-        {"isopen", "boolean", ""}, // "Whether the door is open or not"
-        {"openuntil", "int", ""}, // What time the door will be open until (Unix timestamp)
-        {"error", "string", ""}, // Error from trying to open door
+        {"isopen", "boolean", queuePrefix+"/isopen"}, // "Whether the door is open or not"
+        {"openuntil", "int", queuePrefix+"/openuntil"}, // What time the door will be open until (Unix timestamp)
+        {"error", "string", queuePrefix+"/error"}, // Error from trying to open door
     };
 
     msgflo::EngineConfig config;
