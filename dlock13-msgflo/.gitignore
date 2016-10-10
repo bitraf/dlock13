@@ -1,3 +1,9 @@
 .idea
-build
+build/
+install/
 thirdparty/*
+CMakeCache.txt
+CMakeFiles/
+Makefile
+dlock13
+cmake_install.cmake
