@@ -27,11 +27,14 @@ do { \
 } while(0)
 
 
-class LockState {
+struct LockState {
 public:
     bool isOpen = false;
     time_t openUntil = 0;
 public:
+    LockState() : isOpen(false), openUntil(0) {}
+    LockState(bool o, time_t u) : isOpen(o), openUntil(u) {}
+
     // actually an invariant of this data
     bool isValid() const {
         if (!isOpen) {
@@ -58,8 +61,7 @@ LockState unlock(const LockState currentState, int openSeconds, time_t currentTi
     PRECONDITION(maxOpenSeconds < 10*60, "Maximum time to open is extremely long");
     PRECONDITION(openSeconds <= maxOpenSeconds, "Time to open is longer than maximum");
 
-    LockState newState;
-    // FIXME: implement
+    const LockState newState(true, currentTime+openSeconds);
 
     // postconditions
     POSTCONDITION(newState.isValid(), "New state is not valid");
@@ -78,11 +80,12 @@ LockState tryLock(const LockState currentState, time_t currentTime, int maxOpenS
     PRECONDITION(maxOpenSeconds < 10*60, "Maximum time to open is extremely long");
 //    PRECONDITION(currentTime < currentState.+maxOpenSeconds, "Current time forwarded by more than maximum open time");
 
-    LockState newState;
-    // FIXME: implement
+    const bool shouldLock = currentState.isOpen && currentTime >= currentState.openUntil;
+    const LockState newState = shouldLock ? LockState() : currentState;
 
     // postconditions
     POSTCONDITION(newState.isValid(), "New state is not valid");
+    POSTCONDITION(shouldLock == (newState != currentState), "State changed even though we should not lock");
 
     return newState;
 }
@@ -107,8 +110,8 @@ public:
             const time_t currentTime = time(NULL);
             const LockState newState = tryLock(state, currentTime, MAX_UNLOCK_SECONDS);
             if (newState != state) {
-                POSTCONDITION(!state.isOpen, "Lock open after successful locking");
                 setState(newState);
+                POSTCONDITION(!state.isOpen, "Lock open after successful locking");
             }
         } catch (const std::exception &e) {
             cerr << e.what() << endl;
@@ -124,8 +127,8 @@ public:
             cout << "DoorLock.open(" << openSeconds << ")" << endl;
             const time_t currentTime = time(NULL);
             const LockState newState = unlock(state, openSeconds, currentTime, MAX_UNLOCK_SECONDS);
+            setState(newState);
             POSTCONDITION(state.isOpen, "Lock not open after successful unlocking");
-            setState(state);
         } catch (const std::exception& e) {
             // Don't change state, just notify of the problem
             cerr << e.what() << endl;
@@ -138,19 +141,20 @@ public:
 
 private:
     void send(std::string port, const std::string &data) {
+        PRECONDITION(participant, "No participant registered in send()");
         participant->send(port, data);
     }
 
     void setGPIO(const std::string &filepath, std::string value) {
-        PRECONDITION(filepath.length(), "Filepath is empty");
+        PRECONDITION(filepath.length(), "GPIO filepath is empty");
         std::ofstream fs(filepath.c_str());
-        PRECONDITION(fs, "Filepath cannot be opened");
+        PRECONDITION(fs, "GPIO filepath cannot be opened");
 
-        cout << "DoorLock set GPIO: " << filepath << "to" << value << endl;
+        cout << "DoorLock set GPIO: " << filepath << " to " << value << endl;
         fs << value;
         fs.close();
 
-        POSTCONDITION(fs.is_open(), "File stream was not closed");
+        POSTCONDITION(!fs.is_open(), "File stream was not closed");
         // POSTCONDITION: file now contains @value
     }
 
@@ -162,10 +166,11 @@ private:
         setGPIO(gpio_path, state.isOpen ? "1" : "0");
 
         // Notify about change
-        send("isopen", std::string(state.isOpen ? "true" : "false"));
+        const std::string isOpen = std::string(state.isOpen ? "true" : "false");
+        send("isopen", isOpen);
         const std::string openUntil = std::to_string(state.openUntil);
         send("openuntil", openUntil);
-        cout << "DoorLock open until " << openUntil << endl;
+        cout << "DoorLock open " << isOpen << " until " << openUntil << endl;
 
         // POSTCONDITION: door solenoid now reflects new state
     }
@@ -176,9 +181,9 @@ private:
     msgflo::Participant *participant;
 };
 
-atomic_bool run(true);
 
 int main(int argc, char **argv) {
+    atomic_bool run(true);
 
     std::string role = "dlock13-1";
     if (argc > 1) {
@@ -190,15 +195,18 @@ int main(int argc, char **argv) {
     }
 
     msgflo::Definition def;
+    def.role = role;
+    def.id = role;
     def.component = "Bitraf Dlock13";
     def.label = "Door lock";
+    // TODO: make the port descriptions be included in msgflo-cpp
     def.inports = {
-        {"open", "int", "Open the door for N seconds (maximum 120)"},
+        {"open", "int", ""}, // Open the door for N seconds (maximum 120)
     };
     def.outports = {
-        {"isopen", "boolean", "Whether the door is open or not"},
-        {"openuntil", "int", "What time the door will be open until (Unix timestamp)"},
-        {"error", "string", "Error from trying to open door"},
+        {"isopen", "boolean", ""}, // "Whether the door is open or not"
+        {"openuntil", "int", ""}, // What time the door will be open until (Unix timestamp)
+        {"error", "string", ""}, // Error from trying to open door
     };
 
     msgflo::EngineConfig config;
@@ -209,13 +217,20 @@ int main(int argc, char **argv) {
         // TODO: make msgflo-cpp support port name in processing function
         dlock.process("open", msg);
     });
-    dlock.setParticipant(participant); // TODO: avoid DoorLock needing to know Participant?
+    // TODO: avoid DoorLock needing to know Participant?
+    dlock.setParticipant(participant);
 
-    while(run) {
-        this_thread::sleep_for(chrono::seconds(10));
-        dlock.check();
-    }
-    // FIXME: run this while still calling .check() periodically engine->launch();
+    // FIXME: trap signals and lock door
+    // FIXME: set lock state on startup
+    std::thread checker([&]()
+    {
+        while (run) {
+            this_thread::sleep_for(chrono::seconds(1));
+            dlock.check();
+        }
+    });
+
+    engine->launch();
 
     return EXIT_SUCCESS;
 }

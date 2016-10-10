@@ -3,6 +3,7 @@ project(dlock13-msgflo CXX)
 
 # MsgFlo
 find_package(MsgFlo REQUIRED)
+find_library(libev_LIB ev)
 
 # dlock13
 add_executable(dlock13 dlock13.cpp)
