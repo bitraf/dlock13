@@ -1,6 +1,4 @@
-#!/bin/bash
-
-git submodule update --init --recursive
+#!/bin/bash -xe
 
 mkdir -p build
 
@@ -8,15 +6,16 @@ if [[ $MsgFlo_DIR == "" ]]
 then
     mkdir -p thirdparty/msgflo-cpp/build
     cd thirdparty/msgflo-cpp/build
-    cmake -DCMAKE_INSTALL_PREFIX=../../../build/msgflo-cpp-install ..
+    cmake -DCMAKE_INSTALL_PREFIX=../../../build/install ..
+    cd .. # dunno why this is needed? Makefile seems to be generated in parent dir
     make -j
     make install
-    cd ../../..
-    MsgFlo_DIR=build/msgflo-cpp-install/lib/cmake/MsgFlo
+    cd ../../
+    MsgFlo_DIR=build/install/lib/cmake/MsgFlo
 else
     echo "Using MsgFlo installation from $MsgFlo_DIR"
 fi
 
 cd build
 cmake -DMsgFlo_DIR=$MsgFlo_DIR ..
-make
+make -j
