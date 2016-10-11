@@ -7,10 +7,9 @@ then
     mkdir -p thirdparty/msgflo-cpp/build
     cd thirdparty/msgflo-cpp/build
     cmake -DCMAKE_INSTALL_PREFIX=../../../build/install ..
-    cd .. # dunno why this is needed? Makefile seems to be generated in parent dir
     make -j
     make install
-    cd ../../
+    cd ../../..
     MsgFlo_DIR=build/install/lib/cmake/MsgFlo
 else
     echo "Using MsgFlo installation from $MsgFlo_DIR"
