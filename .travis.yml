@@ -25,7 +25,6 @@ install:
 - which cmake
 - cd dlock13-msgflo
 - ./build.sh
-- export DEBUG=fbp-spec*
 - cd -
 before_script:
 - mosquitto -d
