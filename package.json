@@ -36,7 +36,7 @@
   },
  "msgflo": {
     "components": {
-        "DoorLock": "./dlock13-msgflo/dlock13 #ROLE gpiofile"
+        "DoorLock": "./dlock13-msgflo/build/dlock13 #ROLE gpiofile"
     }
   }
 }
