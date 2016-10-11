@@ -20,10 +20,10 @@ install:
 - sudo make install
 - cd ..
 - npm install
-- mkdir -p dlock13-msgflo/build/
-- curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | tar -xzC ./dlock13-msgflo/build
+- curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | tar -xzC ./
+- export PATH=`pwd`/cmake-3.5.2-Linux-x86_64/bin:$PATH
+- which cmake
 - cd dlock13-msgflo
-- export PATH=build/cmake-3.5.2-Linux-x86_64/bin:$PATH
 - ./build.sh
 - cd -
 before_script:
