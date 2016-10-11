@@ -13,6 +13,8 @@ Expansion for two inputs also exists.
 
 Single-sided board with through-hole components, can easily be CNC milled or etched.
 
+![RPi breakout board schematic](./doc/rpi-breakout-schematic.png)
+
 ### Pinout
 
     # Function | Connector pin |  BCM SoC pin |  WiringPi pin  |
