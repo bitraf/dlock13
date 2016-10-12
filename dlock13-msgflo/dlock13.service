@@ -1,0 +1,13 @@
+[Service]
+ExecStart=/home/pi/dlock13/dlock13-msgflo/build/dlock13
+WorkingDirectory=/home/pi
+Restart=always
+User=pi
+Group=pi
+Environment="MSGFLO_BROKER=mqtt://mqtt.bitraf.no"
+
+[Unit]
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
