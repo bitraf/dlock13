@@ -1,6 +1,6 @@
 [Service]
-ExecStartPre=/home/pi/dlock13/dlock13-msgflo/dlock13-gpio-setup 3 out
-ExecStart=/home/pi/dlock13/dlock13-msgflo/build/dlock13 testdoor /sys/class/gpio/gpio3/value
+ExecStartPre=/home/pi/dlock13/dlock13-msgflo/dlock13-gpio-setup %i out
+ExecStart=/home/pi/dlock13/dlock13-msgflo/build/dlock13 %i /sys/class/gpio/gpio%i/value
 WorkingDirectory=/home/pi
 Restart=always
 User=pi
