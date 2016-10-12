@@ -7,7 +7,7 @@ then
     mkdir -p thirdparty/msgflo-cpp/build
     cd thirdparty/msgflo-cpp/build
     cmake -DCMAKE_INSTALL_PREFIX=../../../build/install ..
-    make -j
+    make -j4
     make install
     cd ../../..
     MsgFlo_DIR=build/install/lib/cmake/MsgFlo
@@ -17,4 +17,4 @@ fi
 
 cd build
 cmake -DMsgFlo_DIR=$MsgFlo_DIR ..
-make -j
+make -j4
