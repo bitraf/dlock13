@@ -1,0 +1,10 @@
+#!/bin/bash -xe
+PIN=$1
+DIRECTION=$2
+GPIO_FILE=/sys/class/gpio/gpio${PIN}/direction
+
+if [ ! -f ${GPIO_FILE} ]; then
+    echo $PIN > /sys/class/gpio/export
+fi
+echo $DIRECTION > $GPIO_FILE
+
