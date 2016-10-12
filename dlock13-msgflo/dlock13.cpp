@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
     def.role = role;
     def.id = role;
     def.component = "DoorLock";
-    def.label = "Door lock";
+    def.label = "Door lock for " + role;
     // TODO: msgflo-cpp, allows the port descriptions be included
     const std::string queuePrefix = prefix + role;
     def.inports = {
