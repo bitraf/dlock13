@@ -193,14 +193,18 @@ int main(int argc, char **argv) {
     if (argc > 2) {
         file = argv[2];
     }
+    std::string prefix = "/bitraf/door/";
+    if (argc > 3) {
+        prefix = argv[3];
+    }
 
     msgflo::Definition def;
     def.role = role;
     def.id = role;
     def.component = "DoorLock";
     def.label = "Door lock";
-    // TODO: make the port descriptions be included in msgflo-cpp
-    const std::string queuePrefix = "/bitraf/door/" + role;
+    // TODO: msgflo-cpp, allows the port descriptions be included
+    const std::string queuePrefix = prefix + role;
     def.inports = {
         {"open", "int", queuePrefix+"/open"}, // Open the door for N seconds (maximum 120)
     };
@@ -215,7 +219,7 @@ int main(int argc, char **argv) {
 
     DoorLock dlock(file);
     msgflo::Participant *participant = engine->registerParticipant(def, [&](msgflo::Message *msg) {
-        // TODO: make msgflo-cpp support port name in processing function
+        // TODO:  msgflo-cpp, support port name in processing function
         dlock.process("open", msg);
     });
     // TODO: avoid DoorLock needing to know Participant?
