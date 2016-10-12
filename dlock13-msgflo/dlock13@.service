@@ -1,10 +1,11 @@
 [Service]
-ExecStartPre=/home/pi/dlock13/dlock13-msgflo/dlock13-gpio-setup %i out
-ExecStart=/home/pi/dlock13/dlock13-msgflo/build/dlock13 %i /sys/class/gpio/gpio%i/value
-WorkingDirectory=/home/pi
+ExecStartPre=/bin/sh -c "./dlock13-msgflo/dlock13-gpio-setup ${DLOCK13_PIN} out"
+ExecStart=/bin/sh -c "./dlock13-msgflo/build/dlock13 %i /sys/class/gpio/gpio${DLOCK13_PIN}/value"
+WorkingDirectory=/home/pi/dlock13
 Restart=always
 User=pi
 Group=pi
+EnvironmentFile=/etc/dlock13/%i.conf
 Environment="MSGFLO_BROKER=mqtt://mqtt.bitraf.no"
 
 [Unit]
