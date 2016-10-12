@@ -101,8 +101,9 @@ public:
     }
 
 public:
-    void setParticipant(msgflo::Participant *part) {
+    void initializeWithParticipant(msgflo::Participant *part) {
         participant = part;
+        setState(state);
     }
 
     void check() {
@@ -223,10 +224,8 @@ int main(int argc, char **argv) {
         dlock.process("open", msg);
     });
     // TODO: avoid DoorLock needing to know Participant?
-    dlock.setParticipant(participant);
+    dlock.initializeWithParticipant(participant);
 
-    // FIXME: trap signals and lock door
-    // FIXME: set lock state on startup
     std::thread checker([&]()
     {
         while (run) {
