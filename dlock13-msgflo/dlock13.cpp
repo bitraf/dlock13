@@ -73,7 +73,7 @@ LockState unlock(const LockState currentState, int openSeconds, time_t currentTi
 }
 
 LockState tryLock(const LockState currentState, time_t currentTime, int maxOpenSeconds) {
-    // preconditions    
+    // preconditions
     PRECONDITION(currentState.isValid(), "Current state is not valid");
     PRECONDITION(currentTime > 1451606400, "Current time is before the code was made (2016)");
     PRECONDITION(maxOpenSeconds > 0, "Maximum time to open is negative or 0");
@@ -199,6 +199,10 @@ int main(int argc, char **argv) {
         prefix = argv[3];
     }
 
+    cout << "Role:   " << role << endl;
+    cout << "File:   " << file << endl;
+    cout << "Prefix: " << prefix << endl;
+
     msgflo::Definition def;
     def.role = role;
     def.id = role;
@@ -215,8 +219,8 @@ int main(int argc, char **argv) {
         {"error", "string", queuePrefix+"/error"}, // Error from trying to open door
     };
 
-    msgflo::EngineConfig config;
-    auto engine = msgflo::createEngine(config);
+    auto engine = msgflo::createEngine(msgflo::EngineConfig()
+                                           .debugOutput(true));
 
     DoorLock dlock(file);
     msgflo::Participant *participant = engine->registerParticipant(def, [&](msgflo::Message *msg) {
