@@ -1,6 +1,7 @@
 #!/bin/bash -xe
 
 mkdir -p build
+git submodule update --init --recursive
 
 if [[ $MsgFlo_DIR == "" ]]
 then
