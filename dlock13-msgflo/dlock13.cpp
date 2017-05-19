@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <iostream>
 #include <atomic>
 #include <chrono>
@@ -219,8 +218,9 @@ int main(int argc, char **argv) {
         {"error", "string", queuePrefix+"/error"}, // Error from trying to open door
     };
 
-    auto engine = msgflo::createEngine(msgflo::EngineConfig()
-                                           .debugOutput(true));
+    auto config = msgflo::EngineConfig();
+    config.debugOutput(true);
+    auto engine = msgflo::createEngine(config);
 
     DoorLock dlock(file);
     msgflo::Participant *participant = engine->registerParticipant(def, [&](msgflo::Message *msg) {
