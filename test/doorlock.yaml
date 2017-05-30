@@ -27,7 +27,6 @@ cases:
 -
   name: 'sending 20 seconds'
   assertion: 'should open'
-  skip: 'fails in combination with other cases'
   inputs:
     open: 20
   expect:
