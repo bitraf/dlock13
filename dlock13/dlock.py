@@ -17,6 +17,8 @@ if log_level:
   level = getattr(logging, log_level.upper())
   logger.setLevel(level)
 
+Timeout = queue.Empty
+
 def mqtt_thread(inqueue, readyqueue, doors, host, port):
 
     state = {
@@ -69,13 +71,15 @@ def mqtt_thread(inqueue, readyqueue, doors, host, port):
     while running:
         try:
             request = inqueue.get_nowait()
-            logging.debug('mqtt thread request')
-            action = request['action']
+            action = request.get('action', None)
+            logging.debug('mqtt thread request. action=%s' % (action))
             if action == 'open':
                 door = request['door']
                 state['open_request'] = request
                 topic = doors[door]+'/open'
-                client.publish(topic, request['duration'])
+                duration = request['duration']
+                logging.debug('sending topic=%s duration=%s' % (topic, duration))
+                client.publish(topic, duration)
             elif action == 'quit':
                 running = False
             else:
@@ -108,7 +112,7 @@ class Doorlock(object):
     # returns: Number, UTC Unix timestamp for when door will lock again
     def open(self, name, duration, timeout=0.5):
         if not self._doors.get(name, None):
-            raise ValueError("Unknown door %s" % s)
+            raise ValueError("Unknown door %s" % name)
         if not (isinstance(duration, numbers.Number)):
             raise ValueError("Duration must be a number")
         if not (duration > 0.0 and duration < 600):
