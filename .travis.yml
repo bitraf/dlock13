@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - '4.6'
 env:
-  - MSGFLO_BROKER=mqtt://localhost
+- MSGFLO_BROKER=mqtt://localhost
 before_install:
 - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 - sudo add-apt-repository ppa:boost-latest/ppa -y
@@ -20,11 +20,12 @@ install:
 - sudo make install
 - cd ..
 - npm install
-- curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | tar -xzC ./
+- curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | tar -xzC
+  ./
 - export PATH=`pwd`/cmake-3.5.2-Linux-x86_64/bin:$PATH
 - which cmake
 - cd dlock13-msgflo
-- ./build.sh
+- "./build.sh"
 - cd -
 - pip install --user nose
 - pip install --user -r requirements.txt
@@ -34,3 +35,11 @@ before_script:
 script:
 - npm test
 - nosetests -v
+deploy:
+  provider: pypi
+  user: jonnor
+  password:
+    secure: OYWE0XXYZ6loHhlQbSLTLAGUgjfNp2a2sf+zjmD5IrD4f/FM/bGL5AlLv3RvjW+bY+T7f4iYBwfJC1/bC5/7HIcpQGRFZ9YgTFg0nGENHHnvpo24XWrXdj0N4mDbILsu093S3iIh86D9BCPsPGmpRm4Kfzajy8FfT0NeaIsJgp0=
+  on:
+    tags: true
+    repo: bitraf/dlock13
