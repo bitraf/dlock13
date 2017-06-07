@@ -18,6 +18,9 @@ if log_level:
   logger.setLevel(level)
 
 Timeout = queue.Empty
+class UnlockingError(Exception):
+    def __init__(self, *args, **kwargs):
+        super(UnlockingError, self).__init__(*args, **kwargs)
 
 def mqtt_thread(inqueue, readyqueue, doors, host, port):
 
@@ -51,9 +54,11 @@ def mqtt_thread(inqueue, readyqueue, doors, host, port):
 
         logging.debug("fofof %s %s %s" % (outport, base, door))
 
-        if state.get('open_request') and door and outport == 'openuntil':
-            response_queue = state['open_request']['response']
-            response_queue.put({'door': door, 'openuntil': float(msg.payload) })
+        current = state.get('open_request', None)
+        if current and door == current['door'] and outport == 'error':
+            current['response'].put({'door': door, 'error': str(msg.payload)})
+        elif current and door == current['door'] and outport == 'openuntil':
+            current['response'].put({'door': door, 'openuntil': float(msg.payload) })
             logging.debug('mqtt thread responded success')
             state['open_request'] = None
         elif outport == 'isopen':
@@ -87,7 +92,6 @@ def mqtt_thread(inqueue, readyqueue, doors, host, port):
         except queue.Empty, e:
             pass # no message right now
         except Exception, e:
-            # TODO: use logging instead
             logging.error('dlock13-mqtt_thread error: %s' % e)
 
         client.loop(timeout=0.1)
@@ -134,6 +138,10 @@ class Doorlock(object):
         response = response_queue.get(block=True, timeout=timeout*2)
 
         # sanity-check post-conditions
+        error = response.get('error', None)
+        if error:
+            raise UnlockingError(error)
+
         until = response['openuntil']
         if not (isinstance(until, numbers.Number)):
             raise Exception("openuntil response not a number")

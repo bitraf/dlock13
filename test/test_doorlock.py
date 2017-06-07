@@ -64,10 +64,11 @@ def test_unlock_invalid_name():
 def test_unlock_wrong_topic():
     assert_raises(dlock13.Timeout, s.lock.open, 'notrunning', 30)
 
-def test_unlock_got_error():
-    return # TODO: should throw Exception with the error message
-    duration_above_max = 4*60
-    assert_raises(dlock13.Error, s.lock.open, 'notrunning', duration_above_max)
+def test_unlock_error_longer_than_max():
+    with assert_raises(dlock13.UnlockingError) as cm:
+        duration_above_max = 4*60
+        s.lock.open('first', duration_above_max)
+    assert 'longer than maximum' in cm.exception.message
 
 def test_unlock_success_again():
     time.sleep(6) # FIXME: fails if not enough time has elapsed
