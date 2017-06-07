@@ -1,3 +1,4 @@
 gpiofile
 node_modules/
 install/
+*.pyc
