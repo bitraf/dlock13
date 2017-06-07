@@ -13,7 +13,7 @@ def setup_flask_app():
         'working': 'test/door/flasky',
         'broken': 'test/door/ffff',
     }
-    app.locks = dlock13.Doorlock(doors)
+    app.locks = dlock13.Opener(doors)
 
     @app.route('/open/<door>', methods=['POST'])
     def open(door):

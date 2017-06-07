@@ -1,4 +1,4 @@
 import dlock
-Doorlock = dlock.Doorlock
+Opener = dlock.Opener
 Timeout = dlock.Timeout
 UnlockingError = dlock.UnlockingError

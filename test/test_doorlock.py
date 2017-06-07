@@ -22,7 +22,7 @@ def setup_module():
         os.mknod(first.file)
     first.child = utils.run_dlock13('first', first.file, 'test/door/')
 
-    s.lock = dlock13.Doorlock({'first': 'test/door/first', 'notrunning': 'test/door/notrunning'})
+    s.lock = dlock13.Opener({'first': 'test/door/first', 'notrunning': 'test/door/notrunning'})
 
     time.sleep(3)
 

@@ -96,7 +96,7 @@ def mqtt_thread(inqueue, readyqueue, doors, host, port):
 
         client.loop(timeout=0.1)
 
-class Doorlock(object):
+class Opener(object):
     def __init__(self, doors, host='localhost', port=1883, connect_timeout=0.5):
         self._doors = doors # { 'name': 'prefix/door/$name', ..}
 
