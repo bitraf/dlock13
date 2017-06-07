@@ -1,22 +1,13 @@
 
 import dlock13
+import utils
 
 import unittest
 from nose.tools import assert_raises
 
 import time
-import subprocess
 import os, sys
 
-# Utils
-def run_dlock13(role, gpiofile, mqttprefix, broker='mqtt://localhost', executable=None):
-    if executable is None:
-        executable = './dlock13-msgflo/build/dlock13'
-    env = os.environ.copy()
-    env['MSGFLO_BROKER'] = broker
-    args = [executable, role, gpiofile, mqttprefix]
-    child = subprocess.Popen(args, shell=False, env=env)
-    return child
 
 # Setup/teardown
 class DummyObject(object):
@@ -29,7 +20,7 @@ s.lock = None
 def setup_module():
     if not os.access(first.file, os.F_OK):
         os.mknod(first.file)
-    first.child = run_dlock13('first', first.file, 'test/door/')
+    first.child = utils.run_dlock13('first', first.file, 'test/door/')
 
     s.lock = dlock13.Doorlock({'first': 'test/door/first', 'notrunning': 'test/door/notrunning'})
 
