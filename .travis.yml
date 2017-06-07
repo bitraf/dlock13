@@ -28,3 +28,6 @@ install:
 - cd -
 before_script:
 - mosquitto -d
+script:
+- npm test
+- nosetests2 -v
