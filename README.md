@@ -28,6 +28,21 @@ At [dlock13-msgflo/dlock13.cpp](./dlock13-msgflo/dlock13.cpp).
 
 Impementation is in C++11, using [msgflo-cpp](https://github.com/msgflo/msgflo-cpp). 
 
+## Python API
+
+Also provided is a simple Python module which will handle checking the MQTT messages
+being sent out on success/error.
+
+Installing
+
+    pip install dlock13
+
+A command-line tool is included
+
+    dlock13-open /bitraf/door/$door_id 60
+
+For how to use programatically, use [dlock13-open](./dlock13-open) as example code.
+
 ## Board
 
 ![RPI breakout board with components](./doc/rpi-breakout-populated.jpg)
