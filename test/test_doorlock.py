@@ -4,10 +4,13 @@ import dlock13
 import unittest
 import time
 
+# FIXME: setup child process
+
 def test_unlock_success():
     lock = dlock13.Doorlock({'first': 'test/door/first', 'second': 'test/door/second'})
-    until = lock.open('first', 50)
-    assert until & time.time()+(50/2)
+    duration = 5
+    until = lock.open('first', duration)
+    assert until > time.time()+(duration/2)
 
 def test_unlock_invalid_duration():
     pass
