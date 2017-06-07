@@ -26,6 +26,9 @@ install:
 - cd dlock13-msgflo
 - ./build.sh
 - cd -
+- pip install --user nose
+- echo $PATH
+- find -name nosetests
 - pip install --user -r requirements.txt
 - pip install --user -r test/requirements.txt
 before_script:
