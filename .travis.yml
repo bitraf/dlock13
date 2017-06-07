@@ -27,7 +27,7 @@ install:
 - cd dlock13-msgflo
 - "./build.sh"
 - cd -
-- pip install --user nose
+- pip install --user nose twine
 - pip install --user -r requirements.txt
 - pip install --user -r test/requirements.txt
 before_script:
@@ -38,6 +38,7 @@ script:
 deploy:
   provider: pypi
   user: jonnor
+  skip_upload_docs: true
   password:
     secure: OYWE0XXYZ6loHhlQbSLTLAGUgjfNp2a2sf+zjmD5IrD4f/FM/bGL5AlLv3RvjW+bY+T7f4iYBwfJC1/bC5/7HIcpQGRFZ9YgTFg0nGENHHnvpo24XWrXdj0N4mDbILsu093S3iIh86D9BCPsPGmpRm4Kfzajy8FfT0NeaIsJgp0=
   on:
