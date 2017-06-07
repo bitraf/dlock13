@@ -34,5 +34,6 @@ setup(
         "paho-mqtt >= 1.1",
     ],
     scripts=[
+        'dlock13-open'
     ],
 )
