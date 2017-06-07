@@ -26,8 +26,10 @@ install:
 - cd dlock13-msgflo
 - ./build.sh
 - cd -
+- pip install --user -r requirements.txt
+- pip install --user -r test/requirements.txt
 before_script:
 - mosquitto -d
 script:
 - npm test
-- nosetests2 -v
+- nosetests -v
