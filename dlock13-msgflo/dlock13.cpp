@@ -66,7 +66,7 @@ LockState unlock(const LockState currentState, int openSeconds, time_t currentTi
     POSTCONDITION(newState.isValid(), "New state is not valid");
     POSTCONDITION(newState.isOpen, "Lock did not open");
     POSTCONDITION(newState.openUntil > currentState.openUntil, "Lock is not open for longer than before");
-    POSTCONDITION(newState.openUntil > currentState.openUntil+openSeconds, "Lock is not open for at least @openSeconds");
+    POSTCONDITION(newState.openUntil >= currentTime+openSeconds, "Lock is not open for at least @openSeconds");
 
     return newState;
 }
