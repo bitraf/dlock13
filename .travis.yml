@@ -1,6 +1,8 @@
 language: node_js
 node_js:
 - '8'
+sudo: true
+dist: trusty
 env:
 - MSGFLO_BROKER=mqtt://localhost
 before_install:
