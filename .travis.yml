@@ -5,9 +5,13 @@ sudo: true
 dist: trusty
 env:
 - MSGFLO_BROKER=mqtt://localhost
+matrix:
+ - env: TARGET=x86
+ - env: TARGET=raspberrypi3 DOCKER_FILE=Dockerfile-raspberrypi3
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install pkg-config libev-dev cmake openssl libc-ares-dev
+- if [ "$TARGET" == "raspberrypi3" ]; then docker run --rm --privileged multiarch/qemu-user-static:register --reset; fi
 install:
 - export CC=gcc-4.8
 - export CXX=g++-4.8

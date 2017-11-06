@@ -1,0 +1,14 @@
+FROM resin/rpi-raspbian:jessie-20171101
+
+RUN mkdir -p /var/app
+WORKDIR /var/app
+
+# Install Dlock13 sources
+COPY ./dlock13-msgflo /var/app/
+
+# Install dependencies
+RUN apt-get update
+RUN apt-get install libmosquitto-dev libev-dev git cmake g++ build-essential
+
+# Run build
+RUN ./build.sh

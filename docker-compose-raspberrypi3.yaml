@@ -1,0 +1,8 @@
+version: '3'
+services:
+  dlock:
+    image: bitraf/dlock13-rpi
+    build:
+      context: .
+      dockerfile: Dockerfile-raspberrypi3
+    container_name: dlock
