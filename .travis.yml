@@ -32,6 +32,10 @@ install:
 - pip install --user nose twine
 - pip install --user -r requirements.txt
 - pip install --user -r test/requirements.txt
+- mkdir -p dlock13-$TARGET/bin
+- if [ "$TARGET" == "raspberrypi3" ]; docker-compose -f docker-compose-raspberrypi3.yaml build; fi
+- if [ "$TARGET" == "raspberrypi3" ]; docker run -it bitraf/dlock13-rpi /bin/true; fi
+- if [ "$TARGET" == "raspberrypi3" ]; docker cp `docker ps -alq`:/var/app/build/dlock13 ./dlock13-$TARGET/bin/
 before_script:
 - mosquitto -d
 script:
