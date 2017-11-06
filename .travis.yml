@@ -17,8 +17,14 @@ before_install:
 - if [ "$TARGET" == "raspberrypi3" ]; then docker run --rm --privileged multiarch/qemu-user-static:register
   --reset; fi
 install:
-- export CC=gcc-4.8
-- export CXX=g++-4.8
+- mkdir -p dlock13-$TARGET/bin
+- if [ "$TARGET" == "raspberrypi3" ]; then docker-compose -f docker-compose-raspberrypi3.yaml
+  build; fi
+- if [ "$TARGET" == "raspberrypi3" ]; then docker run -it bitraf/dlock13-rpi /bin/true;
+  fi
+- if [ "$TARGET" == "raspberrypi3" ]; then docker cp `docker ps -alq`:/var/app/build/dlock13
+  ./dlock13-$TARGET/bin/; fi
+- zip -r dlock13-$TARGET.zip dlock13-$TARGET/
 - wget http://mosquitto.org/files/source/mosquitto-1.3.1.tar.gz
 - tar xzf mosquitto-1.3.1.tar.gz
 - cd mosquitto-1.3.1
@@ -36,14 +42,6 @@ install:
 - pip install --user nose twine
 - pip install --user -r requirements.txt
 - pip install --user -r test/requirements.txt
-- mkdir -p dlock13-$TARGET/bin
-- if [ "$TARGET" == "raspberrypi3" ]; then docker-compose -f docker-compose-raspberrypi3.yaml
-  build; fi
-- if [ "$TARGET" == "raspberrypi3" ]; then docker run -it bitraf/dlock13-rpi /bin/true;
-  fi
-- if [ "$TARGET" == "raspberrypi3" ]; then docker cp `docker ps -alq`:/var/app/build/dlock13
-  ./dlock13-$TARGET/bin/; fi
-- zip -r dlock13-$TARGET.zip dlock13-$TARGET/
 before_script:
 - mosquitto -d
 script:
