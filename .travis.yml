@@ -3,14 +3,28 @@ node_js:
 - '8'
 sudo: true
 dist: trusty
+services:
+- docker
 env:
-- MSGFLO_BROKER=mqtt://localhost
+  global:
+  - MSGFLO_BROKER=mqtt://localhost
+  matrix:
+  - TARGET=x86
+  - TARGET=raspberrypi3 DOCKER_FILE=Dockerfile-raspberrypi3
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install pkg-config libev-dev cmake openssl libc-ares-dev
+- if [ "$TARGET" == "raspberrypi3" ]; then docker run --rm --privileged multiarch/qemu-user-static:register
+  --reset; fi
 install:
-- export CC=gcc-4.8
-- export CXX=g++-4.8
+- mkdir -p dlock13-$TARGET/bin
+- if [ "$TARGET" == "raspberrypi3" ]; then docker-compose -f docker-compose-raspberrypi3.yaml
+  build; fi
+- if [ "$TARGET" == "raspberrypi3" ]; then docker run -it bitraf/dlock13-rpi /bin/true;
+  fi
+- if [ "$TARGET" == "raspberrypi3" ]; then docker cp `docker ps -alq`:/var/app/build/dlock13
+  ./dlock13-$TARGET/bin/; fi
+- zip -r dlock13-$TARGET.zip dlock13-$TARGET/
 - wget http://mosquitto.org/files/source/mosquitto-1.3.1.tar.gz
 - tar xzf mosquitto-1.3.1.tar.gz
 - cd mosquitto-1.3.1
@@ -34,11 +48,22 @@ script:
 - npm test
 - nosetests -v
 deploy:
+-
+  skip_cleanup: true
   provider: pypi
   user: jonnor
   skip_upload_docs: true
   password:
     secure: OYWE0XXYZ6loHhlQbSLTLAGUgjfNp2a2sf+zjmD5IrD4f/FM/bGL5AlLv3RvjW+bY+T7f4iYBwfJC1/bC5/7HIcpQGRFZ9YgTFg0nGENHHnvpo24XWrXdj0N4mDbILsu093S3iIh86D9BCPsPGmpRm4Kfzajy8FfT0NeaIsJgp0=
+  on:
+    tags: true
+    repo: bitraf/dlock13
+-
+  provider: releases
+  api_key:
+    secure: dGFUrHBNucrnE6XLFtovIcJ5YI89RkmWmaKzA6kSut8NggPJyRc+6LO/yfQDIbhuJf702k9jP1Bilsm3F27Eff+trT4CTnXLHAPFSAAzd+2vDMumwwqTPDqzXI4UYYr+VuaO2on4oDFGZODdGrtN92OfwH3T4wuEMzqwJeFzG1g=
+  file: ./dlock13-$TARGET.zip
+  skip_cleanup: true
   on:
     tags: true
     repo: bitraf/dlock13
