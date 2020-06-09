@@ -28,7 +28,7 @@ There is a systemd service for each door. That service needs to be enabled and s
     $ sudo systemctl enable dlock13@2nddoor
     $ sudo systemctl start dlock13@2nddoor
 
-If everything is correct, your door opener is now ready for use. Tho check if the service is working correctly, use
+If everything is correct, your door opener is now ready for use. To check if the service is working correctly, use
 
     $ systemctl status dlock13@firstdoor
     $ systemctl status dlock13@2nddoor
