@@ -51,13 +51,16 @@ install the necessary packages for building
   $ sudo apt install git cmake libev-dev libmosquitto-dev
 
 build the software
+
   $ cd dlock13-msgflo
   $ ./build.sh
 
 copy the service file
+
   $ sudo cp dlock13@.service /etc/systemd/system/
 
 make the directory for the config files
+
   $ sudo mkdir /etc/dlock13
 
 power off the Pi and take out the SD card
@@ -74,6 +77,7 @@ used space. A bit below 4 GB is suitable.
 # create the base image
 
 First find out where the last partition ends. I like to use parted for this. Example:
+
   $ sudo parted /dev/sdc print
   Model: Generic- SD/MMC (scsi)
   Disk /dev/sdc: 15.6GB
