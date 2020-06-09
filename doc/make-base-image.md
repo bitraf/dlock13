@@ -15,7 +15,7 @@ Raspberry Pi OS (the minimal image is recommended), a network cable and a power 
 
 write the image to the SD card (replace MYSDCARD with the name of the device):
 
-  $ unzip 2020-05-27-raspios-buster-lite-armhf.zip | sudo dd of=/dev/MYSDCARD status=progress oflag=sync bs=1M
+    $ unzip 2020-05-27-raspios-buster-lite-armhf.zip | sudo dd of=/dev/MYSDCARD status=progress oflag=sync bs=1M
 
 Enable ssh access
 
