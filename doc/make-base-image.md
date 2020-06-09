@@ -57,7 +57,7 @@ build the software
 
 copy the service file
 
-  $ sudo cp dlock13@.service /etc/systemd/system/
+    $ sudo cp dlock13@.service /etc/systemd/system/
 
 make the directory for the config files
 
@@ -90,6 +90,7 @@ First find out where the last partition ends. I like to use parted for this. Exa
      2      273MB   4362MB  4089MB  primary  ext4
 
 Here the last partition ends at 4362 MB. To be safe, add a few megabytes, then copy the image
+
     $ sudo dd if=/dev/sdc status=progress oflag=sync bs=1M count=4399 > ./dlock13-base-image.img
 
 Compress the image (use gzip, zip or a similar tool) and upload it somewhere public. Remember to document the password for the
