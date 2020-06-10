@@ -1,4 +1,4 @@
-A base image exists at [2020-06-08 dlock13-image.img.gz](http://heim.bitraf.no/tingo/files/iso/dlock13-image.img.gz). 
+A base image exists at [2020-06-08 dlock13-image.img.gz](http://heim.bitraf.no/tingo/files/iso/dlock13-base-image.img.gz). 
 The image is based on the Raspberry Pi OS image "2020-05-27-raspios-buster-lite-armhf.img". The password for the pi user
 is the same as on the original Raspberry Pi OS image.
 
