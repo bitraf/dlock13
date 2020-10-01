@@ -18,6 +18,11 @@ Add config files
 Add config file(s) for dlock13 in /etc/dlock13. The config files are named doorname.conf, for example firstdoor.conf, 
 2nddoor.conf and so on. The contents of the config files is described in [../README.md].
 
+Change password
+
+(This step requires that you have booted a Raspberry Pi with the SD card)
+Remember to change the password for the pi user. Use the 'passwd' command
+
 Start the service
 
 (This step requires that you have booted a Raspberry Pi with the SD card)
