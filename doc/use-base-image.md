@@ -4,7 +4,7 @@ is the same as on the original Raspberry Pi OS image.
 
 To use the image, copy it to a SD card
 
-    $ gunzip -c dlock13-image.img.gz | sudo dd of=/dev/MYSDCARD status=progress oflag=sync bs=1M
+    $ gunzip -c dlock13-base-image.img.gz | sudo dd of=/dev/MYSDCARD status=progress oflag=sync bs=1M
 
 replace MYSDCARD with the name of your sdcard, example: sdc.
 
